@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Slack Channels" max_length="40" name="x_snc_slack_intg_slack_channels" type="collection">
+        <element label="ID" mandatory="true" max_length="32" name="id" read_only="true" type="string"/>
+        <element display="true" label="Name" mandatory="true" max_length="32" name="name" read_only="true" type="string"/>
+        <element label="Task" max_length="32" name="task" read_only="true" reference="task" type="reference"/>
+        <index name="index">
+            <element name="task"/>
+        </index>
+    </element>
+</database>

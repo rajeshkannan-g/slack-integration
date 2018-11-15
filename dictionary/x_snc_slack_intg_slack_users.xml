@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Slack Users" max_length="40" name="x_snc_slack_intg_slack_users" type="collection">
+        <element label="ID" mandatory="true" max_length="255" name="id" read_only="true" type="string"/>
+        <element display="true" label="Name" mandatory="true" max_length="255" name="name" read_only="true" type="string"/>
+        <element label="User" max_length="32" name="user" read_only="true" reference="sys_user" type="reference"/>
+        <index name="index">
+            <element name="user"/>
+        </index>
+    </element>
+</database>
