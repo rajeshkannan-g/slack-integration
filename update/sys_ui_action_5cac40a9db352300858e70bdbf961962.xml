@@ -32,7 +32,8 @@ var name = utils.createChannel(current);
 if(name && !gs.nil(name)) {
 	gs.addInfoMessage(gs.getMessage('Channel #{0} created.', [name]));
 	utils.postTaskMessage(current);
-	if(gs.getUserID() != current.assigned_to + '') {
+	//Admin is creating the channel so can't invite himself.
+	if(current.assigned_to != '6816f79cc0a8016401c5a33be04be441') {
 		var user = new GlideRecord('sys_user');
 		if(user.get(current.assigned_to + ''))
 			utils.inviteUser(current, user);
@@ -49,7 +50,7 @@ action.setRedirectURL(current);]]></script>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>5cac40a9db352300858e70bdbf961962</sys_id>
-        <sys_mod_count>13</sys_mod_count>
+        <sys_mod_count>14</sys_mod_count>
         <sys_name>Create Slack Channel</sys_name>
         <sys_overrides/>
         <sys_package display_value="Slack Integration" source="x_snc_slack_intg">08d60e89dbf52300858e70bdbf961925</sys_package>
@@ -57,7 +58,7 @@ action.setRedirectURL(current);]]></script>
         <sys_scope display_value="Slack Integration">08d60e89dbf52300858e70bdbf961925</sys_scope>
         <sys_update_name>sys_ui_action_5cac40a9db352300858e70bdbf961962</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-11-15 12:10:45</sys_updated_on>
+        <sys_updated_on>2018-11-15 13:13:10</sys_updated_on>
         <table>sn_customerservice_case</table>
         <ui11_compatible>true</ui11_compatible>
         <ui16_compatible>false</ui16_compatible>
