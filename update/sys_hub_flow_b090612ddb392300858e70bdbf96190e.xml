@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_hub_flow">
+    <sys_hub_flow action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <acls/>
+        <active>true</active>
+        <annotation/>
+        <callable_by_client_api>false</callable_by_client_api>
+        <category/>
+        <copied_from/>
+        <copied_from_name/>
+        <description>Process events received from slack channel</description>
+        <internal_name>process_slack_events</internal_name>
+        <label_cache>[{"name":"Created_1.current","label":"Trigger➛Slack Events Record","reference":"x_snc_slack_intg_slack_events","reference_display":"Slack Events","type":"reference","base_type":"reference"}]</label_cache>
+        <latest_snapshot>430f2de9dbb52300a4125411cf96193c</latest_snapshot>
+        <master_snapshot>681e65a5db792300858e70bdbf96198d</master_snapshot>
+        <name>Process Slack Events</name>
+        <outputs/>
+        <remote_trigger_id>f81e65a5db792300858e70bdbf9619c0</remote_trigger_id>
+        <run_as>system</run_as>
+        <sc_callable>false</sc_callable>
+        <show_draft_actions>false</show_draft_actions>
+        <show_triggered_flows>false</show_triggered_flows>
+        <status>published</status>
+        <sys_class_name>sys_hub_flow</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-11-15 17:18:51</sys_created_on>
+        <sys_id>b090612ddb392300858e70bdbf96190e</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>Process Slack Events</sys_name>
+        <sys_package display_value="Slack Integration" source="x_snc_slack_intg">08d60e89dbf52300858e70bdbf961925</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Slack Integration">08d60e89dbf52300858e70bdbf961925</sys_scope>
+        <sys_update_name>sys_hub_flow_b090612ddb392300858e70bdbf96190e</sys_update_name>
+        <sys_updated_by>system</sys_updated_by>
+        <sys_updated_on>2018-11-15 18:22:06</sys_updated_on>
+        <type>flow</type>
+    </sys_hub_flow>
+    <sys_translated_text action="delete_multiple" query="documentkey=b090612ddb392300858e70bdbf96190e"/>
+    <sys_variable_value action="delete_multiple" query="document_key=b090612ddb392300858e70bdbf96190e"/>
+</record_update>

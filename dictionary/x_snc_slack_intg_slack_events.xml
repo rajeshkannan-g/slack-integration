@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element label="Slack Events" max_length="40" name="x_snc_slack_intg_slack_events" type="collection">
         <element display="true" label="ID" mandatory="true" max_length="32" name="id" read_only="true" type="string"/>
-        <element label="Payload" mandatory="true" max_length="4000" name="payload" read_only="true" type="string"/>
+        <element attributes="json_view=true" label="Payload" mandatory="true" max_length="4000" name="payload" read_only="true" type="string"/>
         <element choice="3" default="pending" label="Status" mandatory="true" max_length="40" name="status" type="choice">
             <choice>
                 <element inactive_on_update="false" label="Pending" sequence="1" value="pending"/>

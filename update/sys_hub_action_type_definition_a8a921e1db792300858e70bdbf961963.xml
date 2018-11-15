@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_hub_action_type_definition">
+    <sys_hub_action_type_definition action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <acls/>
+        <active>true</active>
+        <annotation/>
+        <callable_by_client_api>false</callable_by_client_api>
+        <category/>
+        <copied_from/>
+        <copied_from_name/>
+        <description/>
+        <internal_name>process_slack_event</internal_name>
+        <label_cache>[{"name":"{{action.event}}","label":"action➛event","type":"action","ref":"x_snc_slack_intg_slack_events"}]</label_cache>
+        <latest_snapshot>0e2ae5e1db792300858e70bdbf96197a</latest_snapshot>
+        <master_snapshot>f4d9a1e1db792300858e70bdbf9619ae</master_snapshot>
+        <name>Process Slack Event</name>
+        <outputs/>
+        <state>published</state>
+        <sys_class_name>sys_hub_action_type_definition</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-11-15 17:58:25</sys_created_on>
+        <sys_id>a8a921e1db792300858e70bdbf961963</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>Process Slack Event</sys_name>
+        <sys_package display_value="Slack Integration" source="x_snc_slack_intg">08d60e89dbf52300858e70bdbf961925</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Slack Integration">08d60e89dbf52300858e70bdbf961925</sys_scope>
+        <sys_update_name>sys_hub_action_type_definition_a8a921e1db792300858e70bdbf961963</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-11-15 18:00:44</sys_updated_on>
+        <system_level>false</system_level>
+        <type/>
+    </sys_hub_action_type_definition>
+    <sys_translated_text action="delete_multiple" query="documentkey=a8a921e1db792300858e70bdbf961963"/>
+    <sys_variable_value action="delete_multiple" query="document_key=a8a921e1db792300858e70bdbf961963"/>
+</record_update>

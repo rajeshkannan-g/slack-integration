@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element label="Slack Commands" max_length="40" name="x_snc_slack_intg_slack_commands" type="collection">
-        <element label="Payload" mandatory="true" max_length="4000" name="payload" read_only="true" type="string"/>
+        <element attributes="json_view=true" label="Payload" mandatory="true" max_length="4000" name="payload" read_only="true" type="string"/>
         <element choice="3" label="Status" mandatory="true" max_length="40" name="status" read_only="true" type="choice">
             <choice>
                 <element inactive_on_update="false" label="Pending" sequence="100" value="pending"/>
