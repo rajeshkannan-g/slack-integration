@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_hub_action_instance">
+    <sys_hub_action_instance action="INSERT_OR_UPDATE">
+        <action_inputs/>
+        <action_inputs/>
+        <action_type display_value="Post Slack Message">be4784b9db716300858e70bdbf96196f</action_type>
+        <action_type_parent display_value="">9036c479db716300858e70bdbf9619b4</action_type_parent>
+        <comment/>
+        <compiled_snapshot>be4784b9db716300858e70bdbf96196f</compiled_snapshot>
+        <display_text/>
+        <flow display_value="Process Task Work Notes">1fc74cb9db716300858e70bdbf961988</flow>
+        <order>1</order>
+        <parent_ui_id/>
+        <sys_class_name>sys_hub_action_instance</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-11-16 05:29:29</sys_created_on>
+        <sys_id>2bc74cb9db716300858e70bdbf9619c0</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Slack Integration" source="x_snc_slack_intg">08d60e89dbf52300858e70bdbf961925</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Slack Integration">08d60e89dbf52300858e70bdbf961925</sys_scope>
+        <sys_update_name>sys_hub_action_instance_2bc74cb9db716300858e70bdbf9619c0</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-11-16 05:29:29</sys_updated_on>
+        <ui_id>570daaee-2d62-4763-961a-c17c41840b02</ui_id>
+    </sys_hub_action_instance>
+    <sys_variable_value action="delete_multiple" query="document_key=2bc74cb9db716300858e70bdbf9619c0"/>
+    <sys_element_mapping action="delete_multiple" query="id=2bc74cb9db716300858e70bdbf9619c0"/>
+    <sys_element_mapping action="INSERT_OR_UPDATE">
+        <field>message2</field>
+        <id>2bc74cb9db716300858e70bdbf9619c0</id>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-11-16 05:29:29</sys_created_on>
+        <sys_id>e7c74cb9db716300858e70bdbf9619c5</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-11-16 05:29:29</sys_updated_on>
+        <table>var__m_sys_hub_action_input_be4784b9db716300858e70bdbf96196f</table>
+        <value>{{Updated_1.current.work_notes}}</value>
+    </sys_element_mapping>
+    <sys_element_mapping action="INSERT_OR_UPDATE">
+        <field>task1</field>
+        <id>2bc74cb9db716300858e70bdbf9619c0</id>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-11-16 05:29:29</sys_created_on>
+        <sys_id>27c74cb9db716300858e70bdbf9619c5</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-11-16 05:29:29</sys_updated_on>
+        <table>var__m_sys_hub_action_input_be4784b9db716300858e70bdbf96196f</table>
+        <value>{{Updated_1.current}}</value>
+    </sys_element_mapping>
+</record_update>

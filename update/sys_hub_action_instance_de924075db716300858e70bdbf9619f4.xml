@@ -8,33 +8,33 @@
         <compiled_snapshot>f4d9a1e1db792300858e70bdbf9619ae</compiled_snapshot>
         <display_text/>
         <flow display_value="Process Slack Events">681e65a5db792300858e70bdbf96198d</flow>
-        <order>1</order>
+        <order>2</order>
         <parent_ui_id/>
         <sys_class_name>sys_hub_action_instance</sys_class_name>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2018-11-15 18:17:50</sys_created_on>
-        <sys_id>f01e65a5db792300858e70bdbf9619ab</sys_id>
-        <sys_mod_count>2</sys_mod_count>
+        <sys_created_on>2018-11-16 05:06:45</sys_created_on>
+        <sys_id>de924075db716300858e70bdbf9619f4</sys_id>
+        <sys_mod_count>5</sys_mod_count>
         <sys_name/>
         <sys_package display_value="Slack Integration" source="x_snc_slack_intg">08d60e89dbf52300858e70bdbf961925</sys_package>
-        <sys_policy/>
+        <sys_policy>read</sys_policy>
         <sys_scope display_value="Slack Integration">08d60e89dbf52300858e70bdbf961925</sys_scope>
-        <sys_update_name>sys_hub_action_instance_f01e65a5db792300858e70bdbf9619ab</sys_update_name>
+        <sys_update_name>sys_hub_action_instance_de924075db716300858e70bdbf9619f4</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-11-15 18:17:50</sys_updated_on>
-        <ui_id>9ccd1c10-cab0-4fb8-87fb-61e0a4b6c9a1</ui_id>
+        <sys_updated_on>2018-11-16 05:06:46</sys_updated_on>
+        <ui_id>02cfc521-184b-4681-834a-394d8447e2a3</ui_id>
     </sys_hub_action_instance>
-    <sys_variable_value action="delete_multiple" query="document_key=f01e65a5db792300858e70bdbf9619ab"/>
-    <sys_element_mapping action="delete_multiple" query="id=f01e65a5db792300858e70bdbf9619ab"/>
+    <sys_variable_value action="delete_multiple" query="document_key=de924075db716300858e70bdbf9619f4"/>
+    <sys_element_mapping action="delete_multiple" query="id=de924075db716300858e70bdbf9619f4"/>
     <sys_element_mapping action="INSERT_OR_UPDATE">
         <field>event</field>
-        <id>f01e65a5db792300858e70bdbf9619ab</id>
+        <id>de924075db716300858e70bdbf9619f4</id>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2018-11-15 18:17:50</sys_created_on>
-        <sys_id>f81e65a5db792300858e70bdbf9619af</sys_id>
+        <sys_created_on>2018-11-16 05:06:45</sys_created_on>
+        <sys_id>ae928075db716300858e70bdbf961905</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-11-15 18:17:50</sys_updated_on>
+        <sys_updated_on>2018-11-16 05:06:45</sys_updated_on>
         <table>var__m_sys_hub_action_input_f4d9a1e1db792300858e70bdbf9619ae</table>
         <value>{{Created_1.current}}</value>
     </sys_element_mapping>

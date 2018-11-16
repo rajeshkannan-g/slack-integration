@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ws_operation">
+    <sys_ws_operation action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <consumes>application/x-www-form-urlencoded</consumes>
+        <consumes_customized>true</consumes_customized>
+        <default_operation_uri/>
+        <enforce_acl/>
+        <http_method>POST</http_method>
+        <name>Process Inbound Messages</name>
+        <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
+	var payloadObj = request.queryParams ? request.queryParams : '';
+	gs.info('Whatsapp In Request : ' + JSON.stringify(payloadObj));
+	var utils = new x_snc_slack_intg.WhatsAppUtils();
+	utils.handleIncoming(payloadObj);
+})(request, response);]]></operation_script>
+        <operation_uri>/api/x_snc_slack_intg/wapp/receive</operation_uri>
+        <produces>application/json,application/xml,text/xml</produces>
+        <produces_customized>false</produces_customized>
+        <relative_path>/receive</relative_path>
+        <request_example/>
+        <requires_acl_authorization>false</requires_acl_authorization>
+        <requires_authentication>false</requires_authentication>
+        <requires_snc_internal_role>false</requires_snc_internal_role>
+        <short_description/>
+        <sys_class_name>sys_ws_operation</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-11-16 05:37:11</sys_created_on>
+        <sys_id>2329c07ddb3d2300a4125411cf961916</sys_id>
+        <sys_mod_count>20</sys_mod_count>
+        <sys_name>Process Inbound Messages</sys_name>
+        <sys_package display_value="Slack Integration" source="x_snc_slack_intg">08d60e89dbf52300858e70bdbf961925</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Slack Integration">08d60e89dbf52300858e70bdbf961925</sys_scope>
+        <sys_update_name>sys_ws_operation_2329c07ddb3d2300a4125411cf961916</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-11-16 10:30:23</sys_updated_on>
+        <web_service_definition display_value="WhatsApp">ab784c3ddb3d2300a4125411cf96197c</web_service_definition>
+        <web_service_version/>
+    </sys_ws_operation>
+</record_update>

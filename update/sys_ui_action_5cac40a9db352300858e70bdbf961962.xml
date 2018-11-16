@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_ui_action">
     <sys_ui_action action="INSERT_OR_UPDATE">
-        <action_name/>
+        <action_name>create_slack_channel</action_name>
         <active>true</active>
-        <client>false</client>
+        <client>true</client>
         <client_script_v2><![CDATA[function onClick(g_form) {
 }]]></client_script_v2>
         <comments>Create a slack channel to colloborate for resolution of case.</comments>
         <condition>current.major_case_state != 'accepted' &amp;&amp; (new global.StateFlow().validFlow(current, 'd8069501c33231005f76b2c712d3aead', 'manual')) &amp;&amp; !(new x_snc_slack_intg.SlackUtils().hasChannel(current));</condition>
         <form_action>true</form_action>
         <form_button>true</form_button>
-        <form_button_v2>true</form_button_v2>
+        <form_button_v2>false</form_button_v2>
         <form_context_menu>false</form_context_menu>
         <form_link>false</form_link>
         <form_menu_button_v2>false</form_menu_button_v2>
@@ -25,21 +25,80 @@
         <list_save_with_form_button>false</list_save_with_form_button>
         <list_style/>
         <name>Create Slack Channel</name>
-        <onclick/>
+        <onclick>createSlackChannel()</onclick>
         <order>1000</order>
-        <script><![CDATA[var utils = new x_snc_slack_intg.SlackUtils();
-var name = utils.createChannel(current);
-if(name && !gs.nil(name)) {
-	gs.addInfoMessage(gs.getMessage('Channel #{0} created.', [name]));
-	utils.postTaskMessage(current);
-	//Admin is creating the channel so can't invite himself.
-	if(current.assigned_to != '6816f79cc0a8016401c5a33be04be441') {
-		var user = new GlideRecord('sys_user');
-		if(user.get(current.assigned_to + ''))
-			utils.inviteUser(current, user);
+        <script><![CDATA[function createSlackChannel(){
+	var resetModalHeightInt = null;
+	var padBottom = 10;
+
+	//Function to resize modal frame height on change in content or content height
+	function resizeModalFrame(){
+		var frame = window.frames.dialog_frame.document;
+		if(frame){
+			var formHeight = $j("form[id='x_snc_slack_intg_slack_channels.do']",frame).height()+padBottom;
+			$j("#dialog_frame").css("height",formHeight+"px");
+		}else{
+			clearInterval(resetModalHeightInt);
+		}
 	}
+
+	//Load 'GlideModalFormSetWidth.js'  wrapper for 'GlideModalForm' with option to set width
+	ScriptLoader.getScripts('/scripts/classes/GlideModalFormSetWidth.js', function() {
+		var sysID = g_form.getUniqueValue();
+		var DialogClass = window.GlideModalFormSetWidth ? GlideModalFormSetWidth : window.GlideModalForm ? GlideModalForm : GlideDialogForm;
+		//Create and open the dialog form
+		var dialog = new DialogClass(new GwtMessage().getMessage("Create Slack Channel"),'x_snc_slack_intg_slack_channels');
+		var cName = g_form.getValue("number") + '-' + g_form.getValue("short_description");
+		var e1 = new RegExp(' ', 'g');
+		var e2 = new RegExp('[^0-9a-z-]', 'g');
+		 cName.toLowerCase().replace(e1, '-').replace(e2, '').substring(0, 20);
+		dialog.setSize("modal-lg",300);
+		dialog.setPreference('sys_id','-1'); //-1 to get create new record
+		dialog.setPreference('sysparm_view', 'case_view'); //Load 'create' view
+		dialog.setPreference('sysparm_query','task='+sysID+'^name='+cName);
+		dialog.setPreference("sysparm_link_less", "true");
+		dialog.setPreference('sysparm_view_forced', 'true');
+		dialog.setPreference('sysparm_clear_stack', 'true');
+
+		//Onload fucntion to set frame size and make description mandatory
+		dialog.setOnloadCallback(function(dialog){
+			setTimeout(function(){
+				var kframe = window.frames.dialog_frame.document;
+				$j("div[id='x_snc_slack_intg_slack_channels.form_scroll']",kframe).css("overflow","hidden");
+				$j("div[id='x_snc_slack_intg_slack_channels.form_scroll']",kframe).css("display","block");
+			},0);
+
+			resetModalHeightInt = setInterval(function(){
+				resizeModalFrame();
+			});
+			var frame =  window.frames.dialog_frame;
+			$j("#page_timing_div",frame.document).css("display","none");
+			$j("#page_timing_div",frame.document).on('focus', "button:first", function () {
+				padBottom = 80;
+			});
+		});
+
+		//Fuction called on feedback submit, to add success message and refresh Knowledge Feedback Task related list
+		dialog.setCompletionCallback(function(action_verb, sys_id, table, displayValue){
+			//g_form.addInfoMessage( new GwtMessage().getMessage("Successfully created Slack Channel #"+));
+			clearInterval(resetModalHeightInt);
+			window.location.reload();
+		});
+
+		dialog.on("beforeclose", function() {
+			clearInterval(resetModalHeightInt);
+		});
+
+		//Open the dialog
+		dialog.render();
+
+		//Reset modal height on load
+		$j("#dialog_frame").removeAttr("style");
+		$j("#dialog_frame").css("width","100%");
+
+	});
 }
-action.setRedirectURL(current);]]></script>
+]]></script>
         <show_insert>false</show_insert>
         <show_multiple_update>false</show_multiple_update>
         <show_query>false</show_query>
@@ -50,7 +109,7 @@ action.setRedirectURL(current);]]></script>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>5cac40a9db352300858e70bdbf961962</sys_id>
-        <sys_mod_count>14</sys_mod_count>
+        <sys_mod_count>37</sys_mod_count>
         <sys_name>Create Slack Channel</sys_name>
         <sys_overrides/>
         <sys_package display_value="Slack Integration" source="x_snc_slack_intg">08d60e89dbf52300858e70bdbf961925</sys_package>
@@ -58,7 +117,7 @@ action.setRedirectURL(current);]]></script>
         <sys_scope display_value="Slack Integration">08d60e89dbf52300858e70bdbf961925</sys_scope>
         <sys_update_name>sys_ui_action_5cac40a9db352300858e70bdbf961962</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-11-15 13:13:10</sys_updated_on>
+        <sys_updated_on>2018-11-16 10:39:48</sys_updated_on>
         <table>sn_customerservice_case</table>
         <ui11_compatible>true</ui11_compatible>
         <ui16_compatible>false</ui16_compatible>

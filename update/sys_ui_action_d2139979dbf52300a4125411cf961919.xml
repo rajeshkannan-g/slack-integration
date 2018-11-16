@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_ui_action">
+    <sys_ui_action action="INSERT_OR_UPDATE">
+        <action_name>invite_user_slack</action_name>
+        <active>true</active>
+        <client>true</client>
+        <client_script_v2><![CDATA[function onClick(g_form) {
+}]]></client_script_v2>
+        <comments>Create a slack channel to colloborate for resolution of case.</comments>
+        <condition>current.major_case_state != 'accepted' &amp;&amp; (new global.StateFlow().validFlow(current, 'd8069501c33231005f76b2c712d3aead', 'manual')) &amp;&amp; (new x_snc_slack_intg.SlackUtils().hasChannel(current));</condition>
+        <form_action>true</form_action>
+        <form_button>true</form_button>
+        <form_button_v2>false</form_button_v2>
+        <form_context_menu>false</form_context_menu>
+        <form_link>false</form_link>
+        <form_menu_button_v2>false</form_menu_button_v2>
+        <form_style/>
+        <hint>Create a slack channel to colloborate for resolution of case.</hint>
+        <isolate_script>true</isolate_script>
+        <list_action>false</list_action>
+        <list_banner_button>false</list_banner_button>
+        <list_button>false</list_button>
+        <list_choice>false</list_choice>
+        <list_context_menu>false</list_context_menu>
+        <list_link>false</list_link>
+        <list_save_with_form_button>false</list_save_with_form_button>
+        <list_style/>
+        <name>Invite to slack</name>
+        <onclick>inviteSlackUser()</onclick>
+        <order>1000</order>
+        <script><![CDATA[function inviteSlackUser(){
+	var resetModalHeightInt = null;
+	var padBottom = 10;
+
+	//Function to resize modal frame height on change in content or content height
+	function resizeModalFrame(){
+		var frame = window.frames.dialog_frame.document;
+		if(frame){
+			var formHeight = $j("form[id='x_snc_slack_intg_slack_channels.do']",frame).height()+padBottom;
+			$j("#dialog_frame").css("height",formHeight+"px");
+		}else{
+			clearInterval(resetModalHeightInt);
+		}
+	}
+
+	//Load 'GlideModalFormSetWidth.js'  wrapper for 'GlideModalForm' with option to set width
+	ScriptLoader.getScripts('/scripts/classes/GlideModalFormSetWidth.js', function() {
+		var sysID = g_form.getUniqueValue();
+		var DialogClass = window.GlideModalFormSetWidth ? GlideModalFormSetWidth : window.GlideModalForm ? GlideModalForm : GlideDialogForm;
+		//Create and open the dialog form
+		var dialog = new DialogClass(new GwtMessage().getMessage("Create Slack Channel"),'x_snc_slack_intg_slack_channels');
+		dialog.setSize("modal-lg",300);
+		dialog.setPreference('sys_id',g_scratchpad.slack_channel);
+		dialog.setPreference('sysparm_view', 'case_view');
+		dialog.setPreference("sysparm_link_less", "true");
+		dialog.setPreference('sysparm_view_forced', 'true');
+		dialog.setPreference('sysparm_clear_stack', 'true');
+
+		//Onload fucntion to set frame size and make description mandatory
+		dialog.setOnloadCallback(function(dialog){
+			setTimeout(function(){
+				var kframe = window.frames.dialog_frame.document;
+				$j("div[id='x_snc_slack_intg_slack_channels.form_scroll']",kframe).css("overflow","hidden");
+				$j("div[id='x_snc_slack_intg_slack_channels.form_scroll']",kframe).css("display","block");
+			},0);
+
+			resetModalHeightInt = setInterval(function(){
+				resizeModalFrame();
+			});
+			var frame =  window.frames.dialog_frame;
+			$j("#page_timing_div",frame.document).css("display","none");
+			$j("#page_timing_div",frame.document).on('focus', "button:first", function () {
+				padBottom = 80;
+			});
+		});
+
+		//Fuction called on feedback submit, to add success message and refresh Knowledge Feedback Task related list
+		dialog.setCompletionCallback(function(action_verb, sys_id, table, displayValue){
+			//g_form.addInfoMessage( new GwtMessage().getMessage("Successfully created Slack Channel #"+));
+			clearInterval(resetModalHeightInt);
+			window.location.reload();
+		});
+
+		dialog.on("beforeclose", function() {
+			clearInterval(resetModalHeightInt);
+		});
+
+		//Open the dialog
+		dialog.render();
+
+		//Reset modal height on load
+		$j("#dialog_frame").removeAttr("style");
+		$j("#dialog_frame").css("width","100%");
+
+	});
+}
+]]></script>
+        <show_insert>false</show_insert>
+        <show_multiple_update>false</show_multiple_update>
+        <show_query>false</show_query>
+        <show_update>true</show_update>
+        <sys_class_name>sys_ui_action</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-11-16 10:58:27</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>d2139979dbf52300a4125411cf961919</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Invite to slack</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Slack Integration" source="x_snc_slack_intg">08d60e89dbf52300858e70bdbf961925</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Slack Integration">08d60e89dbf52300858e70bdbf961925</sys_scope>
+        <sys_update_name>sys_ui_action_d2139979dbf52300a4125411cf961919</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-11-16 11:30:54</sys_updated_on>
+        <table>sn_customerservice_case</table>
+        <ui11_compatible>true</ui11_compatible>
+        <ui16_compatible>false</ui16_compatible>
+    </sys_ui_action>
+</record_update>

@@ -10,8 +10,8 @@
         <copied_from_name/>
         <description>Process events received from slack channel</description>
         <internal_name>process_slack_events</internal_name>
-        <label_cache>[{"name":"Created_1.current","label":"Trigger➛Slack Events Record","reference":"x_snc_slack_intg_slack_events","reference_display":"Slack Events","type":"reference","base_type":"reference"}]</label_cache>
-        <latest_snapshot>430f2de9dbb52300a4125411cf96193c</latest_snapshot>
+        <label_cache>[{"name":"1bf3974b-2b60-4a96-beb9-fb329205a556.table_name","label":"1➛Slack Events Table","reference":"x_snc_slack_intg_slack_events","reference_display":"Slack Events","type":"table_name","base_type":"table_name"},{"name":"1bf3974b-2b60-4a96-beb9-fb329205a556.record","label":"1➛Slack Events Record","reference":"x_snc_slack_intg_slack_events","reference_display":"Slack Events","type":"reference","base_type":"reference"},{"name":"Created_1.current","label":"Trigger➛Slack Events Record","reference":"x_snc_slack_intg_slack_events","reference_display":"Slack Events","type":"reference","base_type":"reference"}]</label_cache>
+        <latest_snapshot>8fa2c075db716300858e70bdbf9619d3</latest_snapshot>
         <master_snapshot>681e65a5db792300858e70bdbf96198d</master_snapshot>
         <name>Process Slack Events</name>
         <outputs/>
@@ -25,14 +25,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-11-15 17:18:51</sys_created_on>
         <sys_id>b090612ddb392300858e70bdbf96190e</sys_id>
-        <sys_mod_count>4</sys_mod_count>
+        <sys_mod_count>8</sys_mod_count>
         <sys_name>Process Slack Events</sys_name>
         <sys_package display_value="Slack Integration" source="x_snc_slack_intg">08d60e89dbf52300858e70bdbf961925</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Slack Integration">08d60e89dbf52300858e70bdbf961925</sys_scope>
         <sys_update_name>sys_hub_flow_b090612ddb392300858e70bdbf96190e</sys_update_name>
         <sys_updated_by>system</sys_updated_by>
-        <sys_updated_on>2018-11-15 18:22:06</sys_updated_on>
+        <sys_updated_on>2018-11-16 05:07:05</sys_updated_on>
         <type>flow</type>
     </sys_hub_flow>
     <sys_translated_text action="delete_multiple" query="documentkey=b090612ddb392300858e70bdbf96190e"/>

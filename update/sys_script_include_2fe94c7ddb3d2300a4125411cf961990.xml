@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_snc_slack_intg.WhatsAppUtils</api_name>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>WhatsAppUtils</name>
+        <script><![CDATA[var WhatsAppUtils = Class.create();
+WhatsAppUtils.prototype = {
+	initialize: function() {
+		this.helper = new global.SlackGlobalHelper();
+		this.REST_MESSAGE = 'x_snc_slack_intg.WhatsApp';
+		this.REST_FUNCTION = {
+			SEND_MESSAGE   : 'Send WhatsApp Message',
+		};
+	},
+
+	handleIncoming: function(payload) {
+		var pObj = payload,
+			senderNo = String(pObj.From),
+			message = String(pObj.Body),
+			user,caseNo,userId, oldUserId;
+		//		gs.info('prabs: ' +typeof message);
+		caseNo = message.indexOf(':') > -1 ? message.split(":")[0] : '';
+		senderNo = senderNo.split("whatsapp:")[1];
+		message = message.indexOf(':') > -1 ? message.split(":")[1] : message;
+
+		gs.info('Whatsapp data : CaseNo: '+caseNo+', SenderNo: '+senderNo+', Message: ' + message);
+		//Get user id
+		if(senderNo) {
+			var usr = new GlideRecord('sys_user');
+			usr.addActiveQuery();
+			usr.addEncodedQuery('mobile_phone=' + senderNo);
+			usr.query();
+			if(usr.next())
+				userId = usr.getUniqueValue();
+
+			gs.info('Whatsapp User' + usr.getDisplayValue('first_name'));
+		}		
+
+		//Update the case worknote
+		if (caseNo) {
+			oldUserId = this.helper.impersonateUser(userId);
+			var cs = new GlideRecord('task');
+			cs.addQuery('number', caseNo);
+			cs.query();
+			if(cs.next()){
+				gs.info('Whatsapp commenting');
+				cs.comments = message;
+				cs.update();
+			}
+			this.helper.impersonateUser(oldUserId);
+			gs.info('Whatsapp Case' + cs.getDisplayValue('number'));
+		}
+
+	},
+
+	sendWAMessage: function(userID, message, sendSurvey) {
+		gs.info('message : ' + message);
+		var payload = {
+			From: 'whatsapp:' + gs.getProperty('glide.notify.task.whatsapp_number')
+			//To: 'whatsapp:+917411571090'
+		}, mob;
+
+		//get Mobile number for User
+		if(userID) {
+			var usr = new GlideRecord('sys_user');
+			if(usr.get(userID))
+				mob = usr.getValue('mobile_phone');
+		}
+		payload.To = ('whatsapp:' + mob).replace(/ /g,'');
+		if(!sendSurvey)
+			payload.Body = message + '\n\n You can respond to the case right away. Just append the case number to your reply.\n Ex. CASE_NUMBER: <Your Message>';
+		else if(message)
+			payload.Body = message;
+		else 
+			payload.Body = 'https://csmidcdev1.service-now.com/assessment_take2.do?sysparm_assessable_type=87186844d7211100158ba6859e610378';
+			
+		this._postMessage(payload);
+	},
+
+	_postMessage: function(payload) {
+		try {
+			gs.info('prabs raw: ' + JSON.stringify(payload));
+			payload = Object.keys(payload).map(function(k) {
+				return encodeURIComponent(k) + '=' + encodeURIComponent(payload[k]);
+			}).join('&');
+			gs.info('prabs process: ' + payload);
+			//	var content = JSON.stringify(payload);
+			gs.info('WhatsAppUtil _postMessage sending - ' + payload);
+			var req = new sn_ws.RESTMessageV2(this.REST_MESSAGE, this.REST_FUNCTION.SEND_MESSAGE);
+			req.setRequestBody(payload);
+			var res = req.execute();
+			var resText = res.getBody();
+			var resStatus = res.getStatusCode();
+			gs.info('WhatsAppUtil _postMessage Response - ' + resText + ' - ' + resStatus);
+			var response = new global.JSON().decode(resText);
+
+			//if(response.ok == true)
+			//	return true;
+			//TODO: this._handleErrorResponse(response);
+		}
+		catch(ex) {
+			gs.addErrorMessage('Unknown Error - ' + ex.message);
+			gs.info('WhatsAppUtil _postMessage Unknown Error - ' + ex);
+		}	
+		return false;
+	},
+
+	type: 'WhatsAppUtils'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-11-16 05:41:40</sys_created_on>
+        <sys_id>2fe94c7ddb3d2300a4125411cf961990</sys_id>
+        <sys_mod_count>46</sys_mod_count>
+        <sys_name>WhatsAppUtils</sys_name>
+        <sys_package display_value="Slack Integration" source="x_snc_slack_intg">08d60e89dbf52300858e70bdbf961925</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Slack Integration">08d60e89dbf52300858e70bdbf961925</sys_scope>
+        <sys_update_name>sys_script_include_2fe94c7ddb3d2300a4125411cf961990</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-11-16 12:02:01</sys_updated_on>
+    </sys_script_include>
+</record_update>

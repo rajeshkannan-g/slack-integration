@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_rest_message">
+    <sys_rest_message action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <authentication_type>basic</authentication_type>
+        <basic_auth_password/>
+        <basic_auth_profile display_value="Twilio Config">579bb95787021300b18a046787cb0be7</basic_auth_profile>
+        <basic_auth_user/>
+        <description/>
+        <name>WhatsApp</name>
+        <oauth2_profile/>
+        <protocol_name/>
+        <rest_endpoint>https://api.twilio.com/2010-04-01/Accounts/ACdf681a3fbc56db2b7c606e6937991df2</rest_endpoint>
+        <sys_class_name>sys_rest_message</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-11-16 08:43:06</sys_created_on>
+        <sys_id>25f33c75db712300858e70bdbf96196d</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>WhatsApp</sys_name>
+        <sys_package display_value="Slack Integration" source="x_snc_slack_intg">08d60e89dbf52300858e70bdbf961925</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Slack Integration">08d60e89dbf52300858e70bdbf961925</sys_scope>
+        <sys_update_name>sys_rest_message_25f33c75db712300858e70bdbf96196d</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-11-16 09:21:16</sys_updated_on>
+        <use_basic_auth>false</use_basic_auth>
+        <use_mutual_auth>false</use_mutual_auth>
+    </sys_rest_message>
+</record_update>

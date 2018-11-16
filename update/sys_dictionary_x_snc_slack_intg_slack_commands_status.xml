@@ -38,7 +38,7 @@
         <name>x_snc_slack_intg_slack_commands</name>
         <next_element/>
         <primary>false</primary>
-        <read_only>true</read_only>
+        <read_only>false</read_only>
         <read_roles/>
         <reference/>
         <reference_cascade_rule/>
@@ -54,14 +54,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-11-15 05:45:51</sys_created_on>
         <sys_id>d6d14391db792300a4125411cf961989</sys_id>
-        <sys_mod_count>2</sys_mod_count>
+        <sys_mod_count>5</sys_mod_count>
         <sys_name>Status</sys_name>
         <sys_package display_value="Slack Integration" source="x_snc_slack_intg">08d60e89dbf52300858e70bdbf961925</sys_package>
         <sys_policy/>
         <sys_scope display_value="Slack Integration">08d60e89dbf52300858e70bdbf961925</sys_scope>
         <sys_update_name>sys_dictionary_x_snc_slack_intg_slack_commands_status</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-11-15 05:47:27</sys_updated_on>
+        <sys_updated_on>2018-11-16 08:32:46</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_hub_action_type_definition">
+    <sys_hub_action_type_definition action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <acls/>
+        <active>true</active>
+        <annotation/>
+        <callable_by_client_api>false</callable_by_client_api>
+        <category/>
+        <copied_from/>
+        <copied_from_name/>
+        <description/>
+        <internal_name>process_slack_commands</internal_name>
+        <label_cache>[{"name":"{{action.command}}","label":"action➛Command","type":"action","ref":"x_snc_slack_intg_slack_commands"}]</label_cache>
+        <latest_snapshot>32582035db352300a4125411cf9619aa</latest_snapshot>
+        <master_snapshot>cb586035db352300a4125411cf961926</master_snapshot>
+        <name>Process Slack Action</name>
+        <outputs/>
+        <state>draft</state>
+        <sys_class_name>sys_hub_action_type_definition</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-11-16 07:44:35</sys_created_on>
+        <sys_id>d2b6e431db352300a4125411cf961950</sys_id>
+        <sys_mod_count>5</sys_mod_count>
+        <sys_name>Process Slack Action</sys_name>
+        <sys_package display_value="Slack Integration" source="x_snc_slack_intg">08d60e89dbf52300858e70bdbf961925</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Slack Integration">08d60e89dbf52300858e70bdbf961925</sys_scope>
+        <sys_update_name>sys_hub_action_type_definition_d2b6e431db352300a4125411cf961950</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-11-16 10:35:39</sys_updated_on>
+        <system_level>false</system_level>
+        <type/>
+    </sys_hub_action_type_definition>
+    <sys_translated_text action="delete_multiple" query="documentkey=d2b6e431db352300a4125411cf961950"/>
+    <sys_variable_value action="delete_multiple" query="document_key=d2b6e431db352300a4125411cf961950"/>
+</record_update>

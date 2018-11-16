@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
-    <element label="Slack Commands" max_length="40" name="x_snc_slack_intg_slack_commands" type="collection">
+    <element label="Slack Actions" max_length="40" name="x_snc_slack_intg_slack_commands" type="collection">
+        <element display="true" label="Action" max_length="255" name="command" read_only="true" type="string"/>
         <element attributes="json_view=true" label="Payload" mandatory="true" max_length="4000" name="payload" read_only="true" type="string"/>
-        <element choice="3" label="Status" mandatory="true" max_length="40" name="status" read_only="true" type="choice">
+        <element choice="3" label="Status" mandatory="true" max_length="40" name="status" type="choice">
             <choice>
                 <element inactive_on_update="false" label="Pending" sequence="100" value="pending"/>
                 <element inactive_on_update="false" label="Processing" sequence="200" value="processing"/>
                 <element inactive_on_update="false" label="Completed" sequence="300" value="completed"/>
-                <element inactive_on_update="false" label="Ignored" sequence="400" value="Ignored"/>
+                <element inactive_on_update="false" label="Ignored" sequence="400" value="ignored"/>
             </choice>
         </element>
     </element>

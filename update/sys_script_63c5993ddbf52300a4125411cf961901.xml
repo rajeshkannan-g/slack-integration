@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script">
+    <sys_script action="INSERT_OR_UPDATE">
+        <abort_action>false</abort_action>
+        <access>package_private</access>
+        <action_delete>false</action_delete>
+        <action_insert>false</action_insert>
+        <action_query>false</action_query>
+        <action_update>true</action_update>
+        <active>true</active>
+        <add_message>false</add_message>
+        <advanced>true</advanced>
+        <change_fields>false</change_fields>
+        <client_callable>false</client_callable>
+        <collection>x_snc_slack_intg_slack_channels</collection>
+        <condition/>
+        <description/>
+        <execute_function>false</execute_function>
+        <filter_condition table="x_snc_slack_intg_slack_channels">u_usersVALCHANGES^u_usersISNOTEMPTY^EQ<item endquery="false" field="u_users" goto="false" newquery="false" operator="VALCHANGES" or="false" value=""/>
+            <item endquery="false" field="u_users" goto="false" newquery="false" operator="ISNOTEMPTY" or="false" value=""/>
+            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </filter_condition>
+        <is_rest>false</is_rest>
+        <message/>
+        <name>Invite User on Slack Channel</name>
+        <order>100</order>
+        <priority>100</priority>
+        <rest_method/>
+        <rest_method_text/>
+        <rest_service/>
+        <rest_service_text/>
+        <rest_variables/>
+        <role_conditions/>
+        <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
+	var oldUsers = previous.u_users.toString().split(",");
+	var utils = new x_snc_slack_intg.SlackUtils();
+	var user = new GlideRecord('sys_user');
+	user.addQuery("sys_id","IN",current.u_users);
+	user.query();
+	while(user.next()) {
+		//Admin is creating the channel so can't invite himself.
+		if(user.sys_id != '6816f79cc0a8016401c5a33be04be441' && oldUsers.indexOf(user.sys_id+'') == -1)
+			utils.inviteUser(null, current.task.getRefRecord(), user);
+	}
+})(current, previous);]]></script>
+        <sys_class_name>sys_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-11-16 11:10:17</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>63c5993ddbf52300a4125411cf961901</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>Invite User on Slack Channel</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Slack Integration" source="x_snc_slack_intg">08d60e89dbf52300858e70bdbf961925</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Slack Integration">08d60e89dbf52300858e70bdbf961925</sys_scope>
+        <sys_update_name>sys_script_63c5993ddbf52300a4125411cf961901</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-11-16 11:13:28</sys_updated_on>
+        <template/>
+        <when>after</when>
+    </sys_script>
+    <sys_translated_text action="delete_multiple" query="documentkey=63c5993ddbf52300a4125411cf961901"/>
+</record_update>

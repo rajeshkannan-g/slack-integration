@@ -3,6 +3,8 @@
         <element label="ID" mandatory="true" max_length="32" name="id" read_only="true" type="string"/>
         <element display="true" label="Name" mandatory="true" max_length="32" name="name" read_only="true" type="string"/>
         <element label="Task" max_length="32" name="task" read_only="true" reference="task" type="reference"/>
+        <element attributes="edge_encryption_enabled=true" label="Purpose" max_length="200" name="u_purpose" type="string"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Users" max_length="1024" name="u_users" reference="sys_user" type="glide_list"/>
         <index name="index">
             <element name="task"/>
         </index>

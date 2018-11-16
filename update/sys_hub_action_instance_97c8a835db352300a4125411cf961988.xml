@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_hub_action_instance">
+    <sys_hub_action_instance action="INSERT_OR_UPDATE">
+        <action_inputs/>
+        <action_inputs/>
+        <action_type display_value="Process Slack Command">cb586035db352300a4125411cf961926</action_type>
+        <action_type_parent/>
+        <comment/>
+        <compiled_snapshot>cb586035db352300a4125411cf961926</compiled_snapshot>
+        <display_text/>
+        <flow display_value="Process Slack Actions">a9f7a4f1db352300a4125411cf9619e2</flow>
+        <order>2</order>
+        <parent_ui_id/>
+        <sys_class_name>sys_hub_action_instance</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-11-16 07:53:39</sys_created_on>
+        <sys_id>97c8a835db352300a4125411cf961988</sys_id>
+        <sys_mod_count>10</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Slack Integration" source="x_snc_slack_intg">08d60e89dbf52300858e70bdbf961925</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Slack Integration">08d60e89dbf52300858e70bdbf961925</sys_scope>
+        <sys_update_name>sys_hub_action_instance_97c8a835db352300a4125411cf961988</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-11-16 10:35:21</sys_updated_on>
+        <ui_id>5e67b651-c195-4d04-8c15-93049d95932d</ui_id>
+    </sys_hub_action_instance>
+    <sys_variable_value action="delete_multiple" query="document_key=97c8a835db352300a4125411cf961988"/>
+    <sys_element_mapping action="delete_multiple" query="id=97c8a835db352300a4125411cf961988"/>
+    <sys_element_mapping action="INSERT_OR_UPDATE">
+        <field>command</field>
+        <id>97c8a835db352300a4125411cf961988</id>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-11-16 07:53:44</sys_created_on>
+        <sys_id>ecd8e835db352300a4125411cf96195d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-11-16 07:53:44</sys_updated_on>
+        <table>var__m_sys_hub_action_input_cb586035db352300a4125411cf961926</table>
+        <value>{{424dd1d4-cb43-40cb-9b53-d0e1a8bbd52c.record}}</value>
+    </sys_element_mapping>
+    <sys_element_mapping action="INSERT_OR_UPDATE">
+        <field>command</field>
+        <id>97c8a835db352300a4125411cf961988</id>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-11-16 07:53:39</sys_created_on>
+        <sys_id>57c8a835db352300a4125411cf96198d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-11-16 07:53:39</sys_updated_on>
+        <table>var__m_sys_hub_action_input_d2b6e431db352300a4125411cf961950</table>
+        <value>{{424dd1d4-cb43-40cb-9b53-d0e1a8bbd52c.record}}</value>
+    </sys_element_mapping>
+</record_update>

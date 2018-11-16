@@ -19,17 +19,20 @@ SlackUtils.prototype = {
 	REST_MESSAGE  : 'x_snc_slack_intg.Slack',
 	
 	REST_FUNCTION : {
-		CREATE_CHANNEL : 'Create Channel',
-		POST_MESSAGE   : 'Post Message',
-		LOOKUP_USER    : 'Lookup User By Mail',
-		USER_INFO      : 'User Info',
-		INVITE_USER    : 'Invite User',
-		FETCH_FILE     : 'Fetch File'
+		CREATE_CHANNEL   : 'Create Channel',
+		POST_MESSAGE     : 'Post Message',
+		LOOKUP_USER      : 'Lookup User By Mail',
+		USER_INFO        : 'User Info',
+		INVITE_USER      : 'Invite User',
+		FETCH_FILE       : 'Fetch File',
+		COMMAND_RESPONSE :'Command Response',
+		DIALOG_OPEN      : 'Dialog Open'
 	},
 	
 	FILE_HOST        : 'https://files.slack.com/files-pri/',
+	RESPONSE_URL     : 'https://hooks.slack.com/',
 
-	DEBUG : true,
+	DEBUG : false,
 	
 	initialize: function() {
 	},
@@ -37,7 +40,7 @@ SlackUtils.prototype = {
 	/*
  	* Returns true if a channel is created for this task
  	*/
-	createChannel: function(task) {
+	createChannel: function(channel, task) {
 		if(!task || !task.isValidRecord || !task.isValidRecord() || !task.number || !task.sys_id || !task.short_description){
 			gs.addErrorMessage(gs.getMessage('Invalid or missing arguments'));
 			return;
@@ -47,33 +50,33 @@ SlackUtils.prototype = {
 		try {
 			var req = new sn_ws.RESTMessageV2(this.REST_MESSAGE, this.REST_FUNCTION.CREATE_CHANNEL);
 			var content = JSON.stringify(payload);
-			this._log('SlackUtils.createChannel:Request - ' + content);
+			this.log('SlackUtils.createChannel:Request - ' + content);
 			req.setRequestBody(content);
 			var res = req.execute();
 			var resText = res.getBody();
 			var resStatus = res.getStatusCode();
-			this._log('SlackUtils.createChannel:Response - ' + resText + ' - ' + resStatus);
+			this.log('SlackUtils.createChannel:Response - ' + resText + ' - ' + resStatus);
 			var response = new global.JSON().decode(resText);
 			if(response.ok == true) {
-				this._persistChannelInfo(task, response);
-				return response.channel.name;
+				this._updateChannelInfo(channel, response);
+				return response.channel;
 			}
 			this._handleErrorResponse(response);
 		}
 		catch(ex) {
 			gs.addErrorMessage('Unknown Error - ' + ex.message);
-			this._log('SlackUtils.createChannel: Unknown Error - ' + ex);
+			this.log('SlackUtils.createChannel: Unknown Error - ' + ex);
 		}
 		return;
 	},
 		
-	postTaskMessage: function(task, fieldsToPost) {
+	postTaskMessage: function(channel, task, fieldsToPost) {
 		if(!task || !task.isValidRecord || !task.isValidRecord() || !task.sys_id || !task.number) {
 			gs.addErrorMessage(gs.getMessage('Invalid or missing arguments'));
 			return;
 		}
 		
-		var channelId = this._getChannelId(task);
+		var channelId = channel ? channel.id : this._getChannelId(task);
 		if(!channelId || gs.nil(channelId)) {
 			gs.addErrorMessage(gs.getMessage('Slack channel is not created for this task'));
 			return;
@@ -86,13 +89,13 @@ SlackUtils.prototype = {
 		return this._postMessage(payload);
 	},
 		
-	postMessage: function(task, message, user) {
+	postMessage: function(channel, task, message, user) {
 		if(!task || !task.isValidRecord || !task.isValidRecord() || !task.sys_id || !message || gs.nil(message.trim())) {
 			gs.addErrorMessage(gs.getMessage('Invalid or missing arguments'));
 			return;
 		}
 		
-		var channelId = this._getChannelId(task);
+		var channelId = channel ? channel.id : this._getChannelId(task);
 		if(!channelId || gs.nil(channelId.trim())) {
 			gs.addErrorMessage(gs.getMessage('Slack channel is not created for this task'));
 			return;
@@ -122,7 +125,7 @@ SlackUtils.prototype = {
 		return this._postMessage(payload);
 	},
 	
-	inviteUser: function(task, user) {
+	inviteUser: function(channel, task, user) {
 		if(!task || !task.isValidRecord || !task.isValidRecord() || !task.sys_id) {
 			gs.addErrorMessage(gs.getMessage('Invalid or missing arguments'));
 			return;
@@ -133,7 +136,7 @@ SlackUtils.prototype = {
 			return;
 		}
 		
-		var channelId = this._getChannelId(task);
+		var channelId = channel ? channel.id : this._getChannelId(task);
 		if(!channelId || gs.nil(channelId.trim())) {
 			gs.addErrorMessage(gs.getMessage('Slack channel is not created for this task'));
 			return;
@@ -158,12 +161,12 @@ SlackUtils.prototype = {
 		try {
 			var req = new sn_ws.RESTMessageV2(this.REST_MESSAGE, this.REST_FUNCTION.INVITE_USER);
 			var content = JSON.stringify(payload);
-			this._log('SlackUtils.inviteUser:Request - ' + content);
+			this.log('SlackUtils.inviteUser:Request - ' + content);
 			req.setRequestBody(content);
 			var res = req.execute();
 			var resText = res.getBody();
 			var resStatus = res.getStatusCode();
-			this._log('SlackUtils.inviteUser:Response - ' + resText + ' - ' + resStatus);
+			this.log('SlackUtils.inviteUser:Response - ' + resText + ' - ' + resStatus);
 			var response = new global.JSON().decode(resText);
 			if(response.ok == true) {
 				return true;
@@ -172,7 +175,7 @@ SlackUtils.prototype = {
 		}
 		catch(ex) {
 			gs.addErrorMessage('Unknown Error - ' + ex.message);
-			this._log('SlackUtils.inviteUser: Unknown Error - ' + ex);
+			this.log('SlackUtils.inviteUser: Unknown Error - ' + ex);
 		}
 		return;
 		
@@ -204,13 +207,13 @@ SlackUtils.prototype = {
 		
 		var content = "email="+encodeURIComponent(user.email.trim());
 		try {
-			this._log('SlackUtils._populateUserInfo:Request - ' + content);
+			this.log('SlackUtils._populateUserInfo:Request - ' + content);
 			var req = new sn_ws.RESTMessageV2(this.REST_MESSAGE, this.REST_FUNCTION.LOOKUP_USER);
 			req.setRequestBody(content);
 			var res = req.execute();
 			var resText = res.getBody();
 			var resStatus = res.getStatusCode();
-			this._log('SlackUtils._populateUserInfo:Response - ' + resText + ' - ' + resStatus);
+			this.log('SlackUtils._populateUserInfo:Response - ' + resText + ' - ' + resStatus);
 			var response = new global.JSON().decode(resText);
 			if(response.ok == true) {
 				var users = new GlideRecord(this.TABLES.SLACK_USERS);
@@ -225,7 +228,7 @@ SlackUtils.prototype = {
 		}
 		catch(ex) {
 			gs.addErrorMessage('Unknown Error - ' + ex.message);
-			this._log('SlackUtils._populateUserInfo: Unknown Error - ' + ex);
+			this.log('SlackUtils._populateUserInfo: Unknown Error - ' + ex);
 		}	
 		return;
 	},
@@ -238,13 +241,13 @@ SlackUtils.prototype = {
 		
 		var content = "user="+encodeURIComponent(userId.trim());
 		try {
-			this._log('SlackUtils._populateUserInfoFromSlackID:Request - ' + content);
+			this.log('SlackUtils._populateUserInfoFromSlackID:Request - ' + content);
 			var req = new sn_ws.RESTMessageV2(this.REST_MESSAGE, this.REST_FUNCTION.USER_INFO);
 			req.setRequestBody(content);
 			var res = req.execute();
 			var resText = res.getBody();
 			var resStatus = res.getStatusCode();
-			this._log('SlackUtils._populateUserInfoFromSlackID:Response - ' + resText + ' - ' + resStatus);
+			this.log('SlackUtils._populateUserInfoFromSlackID:Response - ' + resText + ' - ' + resStatus);
 			var response = new global.JSON().decode(resText);
 			if(response.ok == true) {
 				var sysUser = new GlideRecord('sys_user');
@@ -267,7 +270,7 @@ SlackUtils.prototype = {
 		}
 		catch(ex) {
 			gs.addErrorMessage('Unknown Error - ' + ex.message);
-			this._log('SlackUtils._populateUserInfoFromSlackID: Unknown Error - ' + ex);
+			this.log('SlackUtils._populateUserInfoFromSlackID: Unknown Error - ' + ex);
 		}	
 		return;
 	},
@@ -289,13 +292,13 @@ SlackUtils.prototype = {
 	_postMessage: function(payload) {
 		try {
 			var content = JSON.stringify(payload);
-			this._log('SlackUtils._postMessage:Request - ' + content);
+			this.log('SlackUtils._postMessage:Request - ' + content);
 			var req = new sn_ws.RESTMessageV2(this.REST_MESSAGE, this.REST_FUNCTION.POST_MESSAGE);
 			req.setRequestBody(content);
 			var res = req.execute();
 			var resText = res.getBody();
 			var resStatus = res.getStatusCode();
-			this._log('SlackUtils._postMessage:Response - ' + resText + ' - ' + resStatus);
+			this.log('SlackUtils._postMessage:Response - ' + resText + ' - ' + resStatus);
 			var response = new global.JSON().decode(resText);
 			if(response.ok == true)
 				return true;
@@ -303,7 +306,7 @@ SlackUtils.prototype = {
 		}
 		catch(ex) {
 			gs.addErrorMessage('Unknown Error - ' + ex.message);
-			this._log('SlackUtils._postMessage: Unknown Error - ' + ex);
+			this.log('SlackUtils._postMessage: Unknown Error - ' + ex);
 		}	
 		return false;
 	},
@@ -329,13 +332,10 @@ SlackUtils.prototype = {
 		return cName.toLowerCase().replace(e1, '-').replace(e2, '').substring(0, 20);
 	},
 
-	_persistChannelInfo: function(task, response) {
-		var channel = new GlideRecord(this.TABLES.SLACK_CHANNELS);
-		channel.initialize();
+	_updateChannelInfo: function(channel, response) {
 		channel.id = response.channel.id;
 		channel.name = response.channel.name;
-		channel.task = task.sys_id + '';
-		channel.insert();
+		channel.update();
 	},
 
 	_createTaskPayload: function(channelId, message, record, recordFields) {
@@ -455,7 +455,7 @@ SlackUtils.prototype = {
 	handleEventRequest: function(request, response) {
 		var payloadObj = request.body ? request.body.data : '';
 		var payloadStr = JSON.stringify(payloadObj);
-		this._log('Slack Event Processor: Payload ' + payloadStr);
+		this.log('Slack Event Processor: Payload ' + payloadStr);
 		if(!payloadObj) {
 			response.setContentType('application/json');
 			response.setStatus(400); //Bad Request
@@ -486,7 +486,7 @@ SlackUtils.prototype = {
 				events.insert();
 			}
 			else {
-				this._log('Slack Event Processor: Event Ignored ');
+				this.log('Slack Event Processor: Event Ignored ');
 			}
 			response.setContentType('application/json');
 			response.setStatus(200);
@@ -496,7 +496,7 @@ SlackUtils.prototype = {
 			response.setContentType('application/json');
 			response.setStatus(400); //Bad Request
 			response.getStreamWriter().writeString('{"error":"Invalid Request."}');
-			this._log('Invalid Request');
+			this.log('Invalid Request');
 		}
 	},
 	
@@ -534,12 +534,12 @@ SlackUtils.prototype = {
 								completed = true;
 							else {
 								gs.addErrorMessage(gs.getMessage('Unable to download file ' + file.name + ' uploaded to slack'));
-								this._log('Unable to download file ' + file.name + ' uploaded to slack');
+								this.log('Unable to download file ' + file.name + ' uploaded to slack');
 							}	
 						}
 					}
 					if(message && !gs.nil(message)) {
-						taskRec.work_notes = message;
+						taskRec.work_notes = "Posted on Slack: " + message;
 						taskRec.update();
 						completed = true;
 					}
@@ -554,27 +554,27 @@ SlackUtils.prototype = {
 	_saveFileAsAttachment: function(params) {
 		try {
 			var fileUrl = params.url.substring(this.FILE_HOST.length);
-			this._log('SlackUtils._saveFileAsAttachment:Request - ' + JSON.stringify(params));
+			this.log('SlackUtils._saveFileAsAttachment:Request - ' + JSON.stringify(params));
 			var req = new sn_ws.RESTMessageV2(this.REST_MESSAGE, this.REST_FUNCTION.FETCH_FILE);
 			req.setStringParameterNoEscape('fileUrl', fileUrl);
 			req.saveResponseBodyAsAttachment(params.tableName, params.recordSysId, params.fileName);
 			var res = req.execute();
 			var resStatus = res.getStatusCode();
 			var attId = res.getResponseAttachmentSysid();
-			this._log('SlackUtils._saveFileAsAttachment:Response - Status - ' + resStatus + ', Attachment Id - ' + attId);
+			this.log('SlackUtils._saveFileAsAttachment:Response - Status - ' + resStatus + ', Attachment Id - ' + attId);
 			return attId;
 		}
 		catch(ex) {
 			gs.addErrorMessage('Unknown Error - ' + ex.message);
-			this._log('SlackUtils._saveFileAsAttachment: Unknown Error - ' + ex);
+			this.log('SlackUtils._saveFileAsAttachment: Unknown Error - ' + ex);
 		}	
 		return;
 	},
 	
-	handleCommandRequest: function(request, response) {
-		var payloadObj = request.queryParams ? request.queryParams : '';
+	handleActionRequest: function(request, response) {
+		var payloadObj = request.body ? request.body.data : '';
 		var payloadStr = JSON.stringify(payloadObj);
-		gs.info('Slack Command Processor: Payload ' + payloadStr);
+		this.log('Slack Action Processor: Payload ' + payloadStr);
 
 		if(!payloadObj) {
 			response.setContentType('application/json');
@@ -592,25 +592,27 @@ SlackUtils.prototype = {
 			commands.initialize();
 			commands.payload = payloadStr;
 			commands.status = 'pending';
+			commands.command = payloadObj.type;
 			commands.insert();
 
 			response.setContentType('application/json');
 			response.setStatus(200);
-			response.getStreamWriter().writeString('{"text":"Queued your command for processing."}');
+			response.getStreamWriter().writeString('{"text":"Sit tight will get back to you shortly."}');
+			
+			//this.processAction(commands);
 		}
 	},
 	
-	processCommand: function(commandRec) {
+	processAction: function(commandRec) {
 		if(commandRec && commandRec.payload) {
 			var completed = false;
 			var payloadObj = JSON.parse(commandRec.payload + '');
-			if(payloadObj.trigger_id && !gs.nil(payloadObj.trigger_id.trim()) && 
-			   payloadObj.response_url && !gs.nil(payloadObj.response_url.trim()) && 
-			   payloadObj.channel_id && !gs.nil(payloadObj.channel_id.trim()) && 
-			   payloadObj.user_id && !gs.nil(payloadObj.user_id.trim()) && 
-			   payloadObj.command && !gs.nil(payloadObj.command.trim())) {
+			if(payloadObj.trigger_id && payloadObj.trigger_id.length > 0 && 
+			   payloadObj.channel_id && payloadObj.channel_id.length > 0  && 
+			   payloadObj.user_id && payloadObj.user_id.length > 0  && 
+			   payloadObj.command && payloadObj.command.length > 0) {
 				var helper = new global.SlackGlobalHelper();
-				var userSlackID =payloadObj.user_id;
+				var userSlackID =payloadObj.user_id[0];
 				var userSysId, userRec = this._getUserRecord(userSlackID);
 				if(!userRec)
 					userRec = this._populateUserInfoFromSlackID(userSlackID);
@@ -618,26 +620,61 @@ SlackUtils.prototype = {
 				if(userRec)
 					userSysId = userRec.user + '';
 				
-				var channelId = payloadObj.channel_id;
+				var channelId = payloadObj.channel_id[0];
 				var taskRec = this._getChannelTaskRecord(channelId);
-				var command = payloadObj.command;
-				var oldUser = helper.impersonateUser(userSysId);
+				var command = payloadObj.command[0];
 
 				if(command == '/close_task') {
-					//process command
-					//or start a dialog
+					var payload = {};
+					payload.trigger_id = payloadObj.trigger_id[0];
+					payload.dialog = {};
+					payload.dialog.callback_id = commandRec.sys_id + '';
+					payload.dialog.title = taskRec.getDisplayValue() + ' - Close Task';
+					payload.dialog.submit_label = 'Close Task';
+					payload.dialog.notify_on_cancel = false;
+					payload.dialog.state = 'close_task';
+					payload.dialog.elements = [];
+					var choices = this._getFieldChoices(taskRec, 'resolution_code');
+					payload.dialog.elements.push({
+						name: "resolution_code",
+						label: "Resolution code",
+						type: "select",
+						options: choices
+					});
+					payload.dialog.elements.push({
+						name: "resolution_notes",
+						label: "Resolution notes",
+						type: "textarea",
+						hint: "Provide resolution to close the task."
+					});
+					
+					if(this._sendDialogResponse(payload)) {
+						gs.addErrorMessage('Failed to open dialog for Close Task command.');
+					}
 				}
-				if(message && !gs.nil(message)) {
-					taskRec.work_notes = message;
-					taskRec.update();
-					completed = true;
-				}
-				helper.impersonateUser(oldUser);
 			}
-			eventRec.status = completed == true ? 'completed' : 'ignored';
-			eventRec.update();
+			commandRec.status = completed == true ? 'completed' : 'ignored';
+			commandRec.update();
 		}
-		
+	},
+	
+	_sendDialogResponse: function(payload) {
+		try {
+			var content = JSON.stringify(payload);
+			this.log('SlackUtils._sendDialogResponse:Request - Request ' + content);
+			var req = new sn_ws.RESTMessageV2(this.REST_MESSAGE, this.REST_FUNCTION.DIALOG_OPEN);
+			req.setRequestBody(content);
+			var res = req.execute();
+			var resStatus = res.getStatusCode();
+			var resBody = res.getBody();
+			this.log('SlackUtils._sendDialogResponse:Response - Status - ' + resStatus + ', Body - ' + resBody);
+			return resStatus == 200 && resBody.ok == true;
+		}
+		catch(ex) {
+			gs.addErrorMessage('Unknown Error - ' + ex.message);
+			this.log('SlackUtils._sendDialogResponse: Unknown Error - ' + ex);
+		}	
+		return;
 	},
 	
 	_getFieldChoices: function(gRec, fieldName) {
@@ -654,7 +691,7 @@ SlackUtils.prototype = {
 		return choices;
 	},
 	
-	_log: function(message) {
+	log: function(message) {
 		if(this.DEBUG)
 			gs.info(message);
 	},
@@ -665,13 +702,13 @@ SlackUtils.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-11-14 10:12:04</sys_created_on>
         <sys_id>91f2f60ddbf16300a4125411cf96190e</sys_id>
-        <sys_mod_count>82</sys_mod_count>
+        <sys_mod_count>119</sys_mod_count>
         <sys_name>SlackUtils</sys_name>
         <sys_package display_value="Slack Integration" source="x_snc_slack_intg">08d60e89dbf52300858e70bdbf961925</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Slack Integration">08d60e89dbf52300858e70bdbf961925</sys_scope>
         <sys_update_name>sys_script_include_91f2f60ddbf16300a4125411cf96190e</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-11-15 21:22:15</sys_updated_on>
+        <sys_updated_on>2018-11-16 11:50:34</sys_updated_on>
     </sys_script_include>
 </record_update>
