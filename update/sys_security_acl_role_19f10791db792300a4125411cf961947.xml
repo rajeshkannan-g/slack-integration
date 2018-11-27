@@ -4,16 +4,16 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-11-15 05:45:51</sys_created_on>
         <sys_id>19f10791db792300a4125411cf961947</sys_id>
-        <sys_mod_count>2</sys_mod_count>
-        <sys_name>x_snc_slack_intg_slack_commands.snc_internal</sys_name>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>x_snc_slack_intg_slack_commands.x_snc_slack_intg.admin</sys_name>
         <sys_package display_value="Slack Integration" source="x_snc_slack_intg">08d60e89dbf52300858e70bdbf961925</sys_package>
         <sys_policy/>
         <sys_scope display_value="Slack Integration">08d60e89dbf52300858e70bdbf961925</sys_scope>
         <sys_security_acl display_value="x_snc_slack_intg_slack_commands">9df10791db792300a4125411cf961942</sys_security_acl>
         <sys_update_name>sys_security_acl_role_19f10791db792300a4125411cf961947</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-11-16 09:47:08</sys_updated_on>
-        <sys_user_role display_value="snc_internal" name="snc_internal">7fcaa702933002009c8579b4f47ffbde</sys_user_role>
+        <sys_updated_on>2018-11-27 17:39:25</sys_updated_on>
+        <sys_user_role display_value="x_snc_slack_intg.admin" name="x_snc_slack_intg.admin">dc869b19db462300a4125411cf961921</sys_user_role>
         <transaction_id/>
     </sys_security_acl_role>
 </record_update>
