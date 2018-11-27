@@ -4,7 +4,7 @@
         <active>true</active>
         <api_name>x_snc_slack_intg.SlackUtils</api_name>
         <client_callable>false</client_callable>
-        <description>Helper methods to Integration with Slack</description>
+        <description>Case Slack Integration Helper</description>
         <name>SlackUtils</name>
         <script><![CDATA[var SlackUtils = Class.create();
 SlackUtils.prototype = {
@@ -702,13 +702,13 @@ SlackUtils.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-11-14 10:12:04</sys_created_on>
         <sys_id>91f2f60ddbf16300a4125411cf96190e</sys_id>
-        <sys_mod_count>119</sys_mod_count>
+        <sys_mod_count>120</sys_mod_count>
         <sys_name>SlackUtils</sys_name>
         <sys_package display_value="Slack Integration" source="x_snc_slack_intg">08d60e89dbf52300858e70bdbf961925</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Slack Integration">08d60e89dbf52300858e70bdbf961925</sys_scope>
         <sys_update_name>sys_script_include_91f2f60ddbf16300a4125411cf96190e</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-11-16 11:50:34</sys_updated_on>
+        <sys_updated_on>2018-11-27 11:33:26</sys_updated_on>
     </sys_script_include>
 </record_update>

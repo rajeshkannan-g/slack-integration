@@ -73,17 +73,4 @@
         <write_roles/>
         <xml_view>false</xml_view>
     </sys_dictionary>
-    <sys_element_mapping action="delete_multiple" query="id=35add385db756300a4125411cf961998"/>
-    <sys_element_mapping action="INSERT_OR_UPDATE">
-        <field>reference_qual_condition</field>
-        <id>35add385db756300a4125411cf961998</id>
-        <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2018-11-15 17:15:09</sys_created_on>
-        <sys_id>7ebfd9e9db392300858e70bdbf96198e</sys_id>
-        <sys_mod_count>0</sys_mod_count>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-11-15 17:15:09</sys_updated_on>
-        <table>sys_dictionary</table>
-        <value/>
-    </sys_element_mapping>
 </record_update>

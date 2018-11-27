@@ -80,5 +80,4 @@
         <write_roles/>
         <xml_view>false</xml_view>
     </sys_hub_step_ext_input>
-    <sys_element_mapping action="delete_multiple" query="id=d9872cb1db352300a4125411cf961972"/>
 </record_update>

@@ -80,17 +80,4 @@
         <write_roles/>
         <xml_view>false</xml_view>
     </sys_hub_action_input>
-    <sys_element_mapping action="delete_multiple" query="id=474784b9db716300858e70bdbf961993"/>
-    <sys_element_mapping action="INSERT_OR_UPDATE">
-        <field>reference_qual_condition</field>
-        <id>474784b9db716300858e70bdbf961993</id>
-        <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2018-11-16 05:27:16</sys_created_on>
-        <sys_id>cb4784b9db716300858e70bdbf961993</sys_id>
-        <sys_mod_count>0</sys_mod_count>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-11-16 05:27:16</sys_updated_on>
-        <table>sys_dictionary</table>
-        <value/>
-    </sys_element_mapping>
 </record_update>

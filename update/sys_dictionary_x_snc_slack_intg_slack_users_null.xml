@@ -73,5 +73,4 @@
         <write_roles/>
         <xml_view>false</xml_view>
     </sys_dictionary>
-    <sys_element_mapping action="delete_multiple" query="id=030a1fc1db756300a4125411cf961934"/>
 </record_update>
